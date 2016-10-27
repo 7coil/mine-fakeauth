@@ -23,7 +23,7 @@ var startServer = function() {
 	app.post("/authenticate", (req, res, next) => {
 		if (req.body.username == "comp501") {
 			console.log("Hey!");
-			res.end("{}");
+			res.end("{}"); // generate fake tokens, and track
 		} else {
 			next();
 		}
