@@ -29,6 +29,8 @@ var startServer = function() {
 		}
 	});
 
+	// other endpoints: check if seen before, if yes validate, if no reject
+
 	app.post("/*", requestProxy({
 		url: "https://" + authserverIP + "/*",
 		headers: {
