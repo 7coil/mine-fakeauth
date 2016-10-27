@@ -29,7 +29,15 @@ var startServer = function() {
 		}
 	});
 
-	// other endpoints: check if seen before, if yes validate, if no reject
+	// other endpoints: check if seen token before, if yes validate, if no reject
+
+	app.post("/signout", (req, res, next) => {
+		if (req.body.username == "comp501") {
+			res.status(204);
+		} else {
+			next();
+		}
+	});
 
 	app.post("/*", requestProxy({
 		url: "https://" + authserverIP + "/*",
