@@ -4,6 +4,8 @@ var fs = require('fs');
 var morgan = require('morgan');
 var requestProxy = require('express-request-proxy');
 var dns = require('dns');
+var bodyParser = require('body-parser');
+
 var authserverIP;
 
 var options = {
@@ -16,13 +18,27 @@ var app = express();
 
 var startServer = function() {
 	app.use(morgan('combined'));
+	app.use(bodyParser.json());
 
-	app.all("/*", requestProxy({
+	app.post("/authenticate", (req, res, next) => {
+		if (req.body.username == "comp501") {
+			console.log("Hey!");
+			res.end("{}");
+		} else {
+			next();
+		}
+	});
+
+	app.post("/*", requestProxy({
 		url: "https://" + authserverIP + "/*",
 		headers: {
 			"Host": "authserver.mojang.com"
 		}
 	}));
+
+	app.get("/", (req, res, next) => {
+		res.end("fakeauth here!");
+	})
 
 	// Create an HTTPS service
 	https.createServer(options, app).listen(443);
