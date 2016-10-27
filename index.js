@@ -26,11 +26,11 @@ app.all("/*", requestProxy({
 // resolve actual IP of authserver
 dns.resolve4('authserver.mojang.com', (err, addresses) => {
 	if (err) throw err;
-	console.log(addresses);
 	if (addresses.length > 0) {
 		authserverIP = addresses[0];
 		// Create an HTTPS service
 		https.createServer(options, app).listen(443);
+		console.log("https://" + authserverIP + "/*");
 	} else {
 		throw "No addresses, no upstream";
 	}
