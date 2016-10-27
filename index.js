@@ -14,23 +14,26 @@ var options = {
 // Create a service (the app object is just a callback).
 var app = express();
 
-app.use(morgan('combined'));
+var startServer = function() {
+	app.use(morgan('combined'));
 
-app.all("/*", requestProxy({
-	url: "https://" + authserverIP + "/*",
-	headers: {
-		"Host": "authserver.mojang.com"
-	}
-}));
+	app.all("/*", requestProxy({
+		url: "https://" + authserverIP + "/*",
+		headers: {
+			"Host": "authserver.mojang.com"
+		}
+	}));
+
+	// Create an HTTPS service
+	https.createServer(options, app).listen(443);
+}
 
 // resolve actual IP of authserver
 dns.resolve4('authserver.mojang.com', (err, addresses) => {
 	if (err) throw err;
 	if (addresses.length > 0) {
 		authserverIP = addresses[0];
-		// Create an HTTPS service
-		https.createServer(options, app).listen(443);
-		console.log("https://" + authserverIP + "/*");
+		startServer();
 	} else {
 		throw "No addresses, no upstream";
 	}
