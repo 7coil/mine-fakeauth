@@ -32,13 +32,13 @@ var startServer = function() {
 	});
 
 	app.post("/refresh", (req, res, next) => {
-		if (auth.checkRefresh(req.body)) {
-			auth.refresh(req.body, (data) => {
+		auth.refresh(req.body, (valid, data) => {
+			if (valid) {
 				res.send(data);
-			});
-		} else {
-			next();
-		}
+			} else {
+				next();
+			}
+		});
 	});
 
 	app.post("/validate", (req, res, next) => {

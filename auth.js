@@ -17,12 +17,17 @@ module.exports.authenticate(data, callback) {
 	});
 }
 
-module.exports.checkRefresh(data, callback) {
-
-}
-
 module.exports.refresh(data, callback) {
-
+	db.findOne({
+		accessToken: data.accessToken
+	}, (err, doc) => {
+		if (err) {
+			callback(false);
+		}
+		if (!doc) {
+			callback(false);
+		}
+	});
 }
 
 module.exports.validate(data, callback) {
