@@ -46,7 +46,7 @@ module.exports.validate(data, callback) {
 	});
 }
 
-module.exports.checkInvalidate(data, callback) {
+module.exports.checkInvalidate(data, callback) { // TODO: merge with invalidate when I want to do invalidation
 	callback(false);
 }
 
