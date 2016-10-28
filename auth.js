@@ -80,44 +80,47 @@ module.exports.refresh(data, callback) {
 		var profileID;
 		var userID;
 
+		db.findOne({
+			username: doc.username,
+			accessToken: {
+				$exists: false
+			},
+			profileID: {
+				$exists: true
+			}
+		}, (err, doc) => {
+			if (doc) {
+				profileID = doc.profileID;
+				userID = doc.userID;
+			} else {
+				profileID = uuid.raw();
+				userID = uuid.raw();
 
+				db.insert({
+					username: data.username,
+					profileID: profileID,
+					userID: userID
+				});
+			}
 
-		/*if (doc) {
-			profileID = doc.profileID;
-			userID = doc.userID;
-		} else {
-			profileID = uuid.raw();
-			userID = uuid.raw();
-
-			db.insert({
-				username: data.username,
-				profileID: profileID,
-				userID: userID
+			db.update({
+				accessToken: data.accessToken
+			}, {
+				accessToken: accessToken
 			});
-		}
 
-		db.insert({
-			username: data.username,
-			accessToken: accessToken
-		});
-
-		callback({
-			"accessToken": accessToken,
-			"clientToken": clientToken,
-			"availableProfiles": [
-				{
+			callback({
+				"accessToken": accessToken,
+				"clientToken": clientToken,
+				"selectedProfile": {
 					"id": profileID,
 					"name": data.username
+				},
+				"user": {
+					"id": userID
 				}
-			],
-			"selectedProfile": {
-				"id": profileID,
-				"name": data.username
-			},
-			"user": {
-				"id": userID
-			}
-		});*/
+			});
+		});
 	});
 }
 
