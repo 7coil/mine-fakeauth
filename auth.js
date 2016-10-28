@@ -79,25 +79,26 @@ module.exports.refresh = function(data, callback) {
 		var accessToken = uuid.raw();
 		var profileID;
 		var userID;
+		var username = doc.username;
 
 		db.findOne({
-			username: doc.username,
+			username: username,
 			accessToken: {
 				$exists: false
 			},
 			profileID: {
 				$exists: true
 			}
-		}, (err, doc2) => {
-			if (doc2) {
-				profileID = doc2.profileID;
-				userID = doc2.userID;
+		}, (err, doc) => {
+			if (doc) {
+				profileID = doc.profileID;
+				userID = doc.userID;
 			} else {
 				profileID = uuid.raw();
 				userID = uuid.raw();
 
 				db.insert({
-					username: doc.username,
+					username: username,
 					profileID: profileID,
 					userID: userID
 				});
@@ -114,7 +115,7 @@ module.exports.refresh = function(data, callback) {
 				"clientToken": clientToken,
 				"selectedProfile": {
 					"id": profileID,
-					"name": doc.username
+					"name": username
 				},
 				"user": {
 					"id": userID
