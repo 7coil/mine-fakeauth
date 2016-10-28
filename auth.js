@@ -32,7 +32,18 @@ module.exports.refresh(data, callback) {
 }
 
 module.exports.validate(data, callback) {
-
+	db.findOne({
+		accessToken: data.accessToken
+	}, (err, doc) => {
+		if (err) {
+			callback(false);
+		}
+		if (!doc) {
+			callback(false);
+		} else {
+			callback(true);
+		}
+	});
 }
 
 module.exports.checkInvalidate(data, callback) {
