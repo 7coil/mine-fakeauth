@@ -23,8 +23,7 @@ var startServer = function() {
 
 	app.post("/authenticate", (req, res, next) => {
 		if (req.body.username == "comp501") {
-			console.log("Hey!");
-			res.end("{}"); // generate fake tokens, and track
+			res.send(auth.authenticate(res.body));
 		} else {
 			next();
 		}
@@ -32,7 +31,7 @@ var startServer = function() {
 
 	app.post("/refresh", (req, res, next) => {
 		if (auth.checkRefresh(req.body)) {
-			auth.refresh(req.body);
+			res.send(auth.refresh(req.body));
 		} else {
 			next();
 		}
@@ -50,6 +49,15 @@ var startServer = function() {
 
 	app.post("/signout", (req, res, next) => {
 		if (req.body.username == "comp501") {
+			res.status(204);
+		} else {
+			next();
+		}
+	});
+
+	app.post("/invalidate", (req, res, next) => {
+		if (auth.checkInvalidate(req.body)) {
+			auth.invalidate(req.body);
 			res.status(204);
 		} else {
 			next();
