@@ -10,6 +10,9 @@ module.exports.authenticate(data, callback) {
 		username: data.username,
 		accessToken: {
 			$exists: false
+		},
+		profileID: {
+			$exists: true
 		}
 	}, (err, doc) => {
 		if (err) {
@@ -28,12 +31,33 @@ module.exports.authenticate(data, callback) {
 			userID = uuid.raw();
 
 			db.insert({
-				username: data.username
+				username: data.username,
+				profileID: profileID,
+				userID: userID
 			});
 		}
 
 		db.insert({
-			username: data.username
+			username: data.username,
+			accessToken: accessToken
+		});
+
+		callback({
+			"accessToken": accessToken,
+			"clientToken": clientToken,
+			"availableProfiles": [
+				{
+					"id": profileID,
+					"name": data.username
+				}
+			],
+			"selectedProfile": {
+				"id": profileID,
+				"name": data.username
+			},
+			"user": {
+				"id": userID
+			}
 		});
 	});
 }
@@ -49,6 +73,49 @@ module.exports.refresh(data, callback) {
 			callback(false);
 		}
 		// refresh token, update then callback
+		var clientToken = data.clientToken;
+		var accessToken = uuid.raw();
+		var profileID;
+		var userID;
+
+
+
+		/*if (doc) {
+			profileID = doc.profileID;
+			userID = doc.userID;
+		} else {
+			profileID = uuid.raw();
+			userID = uuid.raw();
+
+			db.insert({
+				username: data.username,
+				profileID: profileID,
+				userID: userID
+			});
+		}
+
+		db.insert({
+			username: data.username,
+			accessToken: accessToken
+		});
+
+		callback({
+			"accessToken": accessToken,
+			"clientToken": clientToken,
+			"availableProfiles": [
+				{
+					"id": profileID,
+					"name": data.username
+				}
+			],
+			"selectedProfile": {
+				"id": profileID,
+				"name": data.username
+			},
+			"user": {
+				"id": userID
+			}
+		});*/
 	});
 }
 
