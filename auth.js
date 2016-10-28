@@ -68,9 +68,11 @@ module.exports.refresh(data, callback) {
 	}, (err, doc) => {
 		if (err) {
 			callback(false);
+			return;
 		}
 		if (!doc) {
 			callback(false);
+			return;
 		}
 		// refresh token, update then callback
 		var clientToken = data.clientToken;
@@ -125,11 +127,14 @@ module.exports.validate(data, callback) {
 	}, (err, doc) => {
 		if (err) {
 			callback(false);
+			return;
 		}
 		if (!doc) {
 			callback(false);
+			return;
 		} else {
 			callback(true);
+			return;
 		}
 	});
 }
