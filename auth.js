@@ -1,5 +1,7 @@
 var uuid = require('uuid-lib');
-var nedb = require('nedb');
+
+var Datastore = require('nedb');
+var db = new Datastore({ filename: 'tokens', autoload: true });
 
 module.exports = {};
 
