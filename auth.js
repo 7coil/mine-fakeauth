@@ -1,3 +1,6 @@
+var uuid = require('uuid-lib');
+var nedb = require('nedb');
+
 module.exports = {};
 
 module.exports.authenticate(data) {
