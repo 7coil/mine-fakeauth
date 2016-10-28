@@ -88,10 +88,10 @@ module.exports.refresh = function(data, callback) {
 			profileID: {
 				$exists: true
 			}
-		}, (err, doc) => {
-			if (doc) {
-				profileID = doc.profileID;
-				userID = doc.userID;
+		}, (err, doc2) => {
+			if (doc2) {
+				profileID = doc2.profileID;
+				userID = doc2.userID;
 			} else {
 				profileID = uuid.raw();
 				userID = uuid.raw();
