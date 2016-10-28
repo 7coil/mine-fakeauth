@@ -12,10 +12,6 @@ module.exports.refresh(data) {
 
 }
 
-module.exports.checkValidate(data) {
-
-}
-
 module.exports.validate(data) {
 
 }

@@ -38,6 +38,14 @@ var startServer = function() {
 		}
 	});
 
+	app.post("/validate", (req, res, next) => {
+		if (auth.validate(req.body)) {
+			res.status(204);
+		} else {
+			next();
+		}
+	});
+
 	// other endpoints: check if seen token before, if yes validate, if no reject
 
 	app.post("/signout", (req, res, next) => {
