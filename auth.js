@@ -5,7 +5,7 @@ var db = new Datastore({ filename: 'tokens.db', autoload: true });
 
 module.exports = {};
 
-module.exports.authenticate(data, callback) {
+module.exports.authenticate = function(data, callback) {
 	db.findOne({
 		username: data.username,
 		accessToken: {
@@ -62,7 +62,7 @@ module.exports.authenticate(data, callback) {
 	});
 }
 
-module.exports.refresh(data, callback) {
+module.exports.refresh = function(data, callback) {
 	db.findOne({
 		accessToken: data.accessToken
 	}, (err, doc) => {
@@ -124,7 +124,7 @@ module.exports.refresh(data, callback) {
 	});
 }
 
-module.exports.validate(data, callback) {
+module.exports.validate = function(data, callback) {
 	db.findOne({
 		accessToken: data.accessToken
 	}, (err, doc) => {
@@ -142,11 +142,11 @@ module.exports.validate(data, callback) {
 	});
 }
 
-module.exports.checkInvalidate(data, callback) { // TODO: merge with invalidate when I want to do invalidation
+module.exports.checkInvalidate = function(data, callback) { // TODO: merge with invalidate when I want to do invalidation
 	callback(false);
 }
 
-module.exports.invalidate(data) {
+module.exports.invalidate = function(data) {
 	db.remove({
 		accessToken: data.accessToken
 	}, {});
