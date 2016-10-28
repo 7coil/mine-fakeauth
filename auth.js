@@ -27,6 +27,7 @@ module.exports.refresh(data, callback) {
 		if (!doc) {
 			callback(false);
 		}
+		// refresh token, update then callback
 	});
 }
 
