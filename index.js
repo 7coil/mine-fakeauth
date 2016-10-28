@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var requestProxy = require('express-request-proxy');
 var dns = require('dns');
 var bodyParser = require('body-parser');
+var auth = require('./auth');
 
 var authserverIP;
 
@@ -24,6 +25,14 @@ var startServer = function() {
 		if (req.body.username == "comp501") {
 			console.log("Hey!");
 			res.end("{}"); // generate fake tokens, and track
+		} else {
+			next();
+		}
+	});
+
+	app.post("/refresh", (req, res, next) => {
+		if (auth.checkRefresh(req.body)) {
+			auth.refresh(req.body);
 		} else {
 			next();
 		}
