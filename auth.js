@@ -97,7 +97,7 @@ module.exports.refresh = function(data, callback) {
 				userID = uuid.raw();
 
 				db.insert({
-					username: data.username,
+					username: doc.username,
 					profileID: profileID,
 					userID: userID
 				});
@@ -114,7 +114,7 @@ module.exports.refresh = function(data, callback) {
 				"clientToken": clientToken,
 				"selectedProfile": {
 					"id": profileID,
-					"name": data.username
+					"name": doc.username
 				},
 				"user": {
 					"id": userID
