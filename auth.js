@@ -6,6 +6,7 @@ var db = new Datastore({ filename: 'tokens', autoload: true });
 module.exports = {};
 
 module.exports.authenticate(data, callback) {
+	db.findOne({ username: data.username });
 	var clientToken = data.clientToken || uuid.raw();
 	var accessToken = uuid.raw();
 	var profileID = uuid.raw();
@@ -29,7 +30,7 @@ module.exports.validate(data, callback) {
 }
 
 module.exports.checkInvalidate(data, callback) {
-
+	callback(false);
 }
 
 module.exports.invalidate(data) {
