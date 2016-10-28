@@ -12,8 +12,7 @@ module.exports.authenticate(data, callback) {
 	var userID = uuid.raw();
 
 	db.insert({
-		username: data.username,
-		clientToken: clientToken
+		username: data.username
 	});
 }
 
@@ -35,7 +34,6 @@ module.exports.checkInvalidate(data, callback) {
 
 module.exports.invalidate(data) {
 	db.remove({
-		clientToken: data.clientToken,
 		accessToken: data.accessToken
 	}, {});
 }
