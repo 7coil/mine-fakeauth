@@ -33,9 +33,9 @@ module.exports.checkInvalidate(data, callback) {
 
 }
 
-module.exports.invalidate(data, callback) {
+module.exports.invalidate(data) {
 	db.remove({
 		clientToken: data.clientToken,
 		accessToken: data.accessToken
-	});
+	}, {});
 }
