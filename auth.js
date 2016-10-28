@@ -1,19 +1,40 @@
 var uuid = require('uuid-lib');
 
 var Datastore = require('nedb');
-var db = new Datastore({ filename: 'tokens', autoload: true });
+var db = new Datastore({ filename: 'tokens.db', autoload: true });
 
 module.exports = {};
 
 module.exports.authenticate(data, callback) {
-	db.findOne({ username: data.username });
-	var clientToken = data.clientToken || uuid.raw();
-	var accessToken = uuid.raw();
-	var profileID = uuid.raw();
-	var userID = uuid.raw();
+	db.findOne({
+		username: data.username,
+		accessToken: {
+			$exists: false
+		}
+	}, (err, doc) => {
+		if (err) {
+			throw err;
+		}
+		var clientToken = data.clientToken || uuid.raw();
+		var accessToken = uuid.raw();
+		var profileID;
+		var userID;
 
-	db.insert({
-		username: data.username
+		if (doc) {
+			profileID = doc.profileID;
+			userID = doc.userID;
+		} else {
+			profileID = uuid.raw();
+			userID = uuid.raw();
+
+			db.insert({
+				username: data.username
+			});
+		}
+
+		db.insert({
+			username: data.username
+		});
 	});
 }
 
