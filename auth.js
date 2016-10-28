@@ -5,26 +5,37 @@ var db = new Datastore({ filename: 'tokens', autoload: true });
 
 module.exports = {};
 
-module.exports.authenticate(data) {
+module.exports.authenticate(data, callback) {
+	var clientToken = data.clientToken || uuid.raw();
+	var accessToken = uuid.raw();
+	var profileID = uuid.raw();
+	var userID = uuid.raw();
+
+	db.insert({
+		username: data.username,
+		clientToken: clientToken
+	});
+}
+
+module.exports.checkRefresh(data, callback) {
 
 }
 
-module.exports.checkRefresh(data) {
+module.exports.refresh(data, callback) {
 
 }
 
-module.exports.refresh(data) {
+module.exports.validate(data, callback) {
 
 }
 
-module.exports.validate(data) {
+module.exports.checkInvalidate(data, callback) {
 
 }
 
-module.exports.checkInvalidate(data) {
-
-}
-
-module.exports.invalidate(data) {
-
+module.exports.invalidate(data, callback) {
+	db.remove({
+		clientToken: data.clientToken,
+		accessToken: data.accessToken
+	});
 }
