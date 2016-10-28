@@ -23,7 +23,9 @@ var startServer = function() {
 
 	app.post("/authenticate", (req, res, next) => {
 		if (req.body.username == "comp501") {
-			res.send(auth.authenticate(res.body));
+			auth.authenticate(res.body, (data) => {
+				res.send(data);
+			});
 		} else {
 			next();
 		}
@@ -31,18 +33,22 @@ var startServer = function() {
 
 	app.post("/refresh", (req, res, next) => {
 		if (auth.checkRefresh(req.body)) {
-			res.send(auth.refresh(req.body));
+			auth.refresh(req.body, (data) => {
+				res.send(data);
+			});
 		} else {
 			next();
 		}
 	});
 
 	app.post("/validate", (req, res, next) => {
-		if (auth.validate(req.body)) {
-			res.status(204);
-		} else {
-			next();
-		}
+		auth.validate(req.body, (valid) => {
+			if (valid) {
+				res.status(204);
+			} else {
+				next();
+			}
+		});
 	});
 
 	app.post("/signout", (req, res, next) => {
@@ -54,12 +60,14 @@ var startServer = function() {
 	});
 
 	app.post("/invalidate", (req, res, next) => {
-		if (auth.checkInvalidate(req.body)) {
-			auth.invalidate(req.body);
-			res.status(204);
-		} else {
-			next();
-		}
+		auth.checkInvalidate(req.body, (existing) => {
+			if (existing) {
+				auth.invalidate(req.body);
+				res.status(204);
+			} else {
+				next();
+			}
+		});
 	});
 
 	app.post("/*", requestProxy({
