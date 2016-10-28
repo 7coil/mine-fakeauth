@@ -109,7 +109,7 @@ module.exports.refresh = function(data, callback) {
 				accessToken: accessToken
 			});
 
-			callback({
+			callback(true, {
 				"accessToken": accessToken,
 				"clientToken": clientToken,
 				"selectedProfile": {
