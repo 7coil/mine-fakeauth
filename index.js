@@ -41,7 +41,7 @@ var startServer = function() {
 		});
 	});
 
-	app.post("/validate", (req, res, next) => {
+	app.post("/validate", (req, res, next) => { // takes a while for some reason
 		auth.validate(req.body, (valid) => {
 			if (valid) {
 				res.status(204);
