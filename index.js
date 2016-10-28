@@ -23,7 +23,7 @@ var startServer = function() {
 
 	app.post("/authenticate", (req, res, next) => {
 		if (req.body.username == "comp501") {
-			auth.authenticate(res.body, (data) => {
+			auth.authenticate(req.body, (data) => {
 				res.send(data);
 			});
 		} else {
