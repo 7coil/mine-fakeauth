@@ -33,9 +33,16 @@ module.exports = function () {
 				if (status) {
 					res.status(status);
 				}
-				res.end(JSON.stringify(response));
-			}, function errorHandler(error) {
-				red.status(500); // TODO set error status code
+				if (response) {
+					res.end(JSON.stringify(response));
+				} else {
+					res.status(204);
+					res.end(); // no content
+				}
+			}, function errorHandler(error, status) {
+				if (status) {
+					res.status(status); // TODO get status codes from file
+				}
 				res.end(JSON.stringify(errors[error]));
 			});
 		});

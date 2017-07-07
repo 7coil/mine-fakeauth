@@ -43,7 +43,7 @@ module.exports = function (registerEndpoint, database) {
 	});
 
 	registerEndpoint("/refresh", function (body, send, error) {
-		database.getPlayerFromToken(body.clientToken, body.accessToken).then(function (player) {
+		database.getPlayerFromToken(body.accessToken).then(function (player) {
 			var newToken = uuid(); // generate new token
 			database.setAccessToken(body.clientToken, newToken, player.username);
 
@@ -64,7 +64,15 @@ module.exports = function (registerEndpoint, database) {
 
 			send(reply);
 		}).catch(function () {
-			error(5); // Invalid token
+			error(5, 403); // Invalid token
+		});
+	});
+
+	registerEndpoint("/validate", function (body, send, error) {
+		database.getPlayerFromToken(body.accessToken).then(function (player) {
+			send(); // 204 No Content
+		}).catch(function () {
+			error(5, 403); // Invalid token
 		});
 	});
 };
