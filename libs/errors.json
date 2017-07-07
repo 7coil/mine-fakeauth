@@ -1,11 +1,11 @@
 [
 	{
 		"error": "Method Not Allowed",
-		"errorMessage": "The method specified in the request is not allowed for the resource identified by the request URI",
+		"errorMessage": "The method specified in the request is not allowed for the resource identified by the request URI"
 	},
 	{
 		"error": "Not Found",
-		"errorMessage": "The server has not found anything matching the request URI",
+		"errorMessage": "The server has not found anything matching the request URI"
 	},
 	{
 		"error": "ForbiddenOperationException",
