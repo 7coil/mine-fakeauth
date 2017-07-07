@@ -1,5 +1,5 @@
 const express = require('express');
-//const https = require('https');
+const https = require('https');
 const http = require('http');
 
 const morgan = require('morgan');
@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const errors = require('./errors.json');
 
-module.exports = function () {
+module.exports = function (options) {
 	const app = express();
 	const router = express.Router();
 	
@@ -26,7 +26,11 @@ module.exports = function () {
 		}
 	});
 	
-	http.createServer(app).listen(443);
+	if (options.https) {
+		https.createServer(app, options.https).listen(443);
+	} else {
+		http.createServer(app, options.http).listen(80); // for testing
+	}
 	
 	return function (endpoint, callback) {
 		router.post(endpoint, function (req, res) {
