@@ -27,7 +27,7 @@ Search the token database by the accessToken given. If the accessToken is correc
 ## getAccessToken(clientToken)
 Returns: String or null
 
-Search the token database by the clientToken given. If the clientToken is correct, resolve with the accessToken. If not, return null.
+Search the token database by the clientToken given. If the clientToken is correct, return with the accessToken. If not, return null.
 
 ## setAccessToken(clientToken, accessToken, username)
 Returns: Promise
