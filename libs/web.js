@@ -18,10 +18,10 @@ module.exports = function () {
 	app.use(function(req, res, next) {
 		if (req.method != "POST") { // differing from reference implementation as 404 returned before 405 normally
 			res.status(405);
-			res.end(JSON.stringify(errors[1]));
+			res.end(JSON.stringify(errors[0]));
 		} else {
 			res.status(404);
-			res.end(JSON.stringify(errors[2]));
+			res.end(JSON.stringify(errors[1]));
 		}
 	});
 	
