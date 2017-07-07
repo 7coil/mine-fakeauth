@@ -35,7 +35,8 @@ module.exports = function () {
 				}
 				res.end(JSON.stringify(response));
 			}, function errorHandler(error) {
-				red.status(500); // TODO send/handle errors
+				red.status(500); // TODO set error status code
+				res.end(JSON.stringify(errors[error]));
 			});
 		});
 	};
