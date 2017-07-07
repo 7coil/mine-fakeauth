@@ -5,28 +5,28 @@ module.exports = function (registerEndpoint, database) {
 		if (!body.clientToken) {
 			body.clientToken = uuid(); // generate clientToken if not given
 		}
-		database.getPlayer(body.username, body.password).then(function (player) {
+		database.getPlayerFromLogin(body.username, body.password).then(function (player) {
 			var accessToken = database.getAccessToken(body.clientToken);
 			if (!accessToken) {
 				accessToken = uuid(); // generate new accessToken if not given
-				database.setAccessToken(body.clientToken, accessToken);
+				database.setAccessToken(body.clientToken, accessToken, body.username);
 			}
 
 			var reply = {
 				accessToken: accessToken,
-				clientToken: body.clientToken,
+				clientToken: body.clientToken
 			};
 
 			if (body.agent) {
 				reply.availableProfiles = [
 					{
 						"id": player.profileID,
-						"name": body.username
+						"name": player.username
 					}
 				];
 				reply.selectedProfile = {
 					"id": player.profileID,
-					"name": body.username
+					"name": player.username
 				};
 			}
 
@@ -39,6 +39,32 @@ module.exports = function (registerEndpoint, database) {
 			send(reply);
 		}).catch(function () {
 			error(3); // Invalid username or password
+		});
+	});
+
+	registerEndpoint("/refresh", function (body, send, error) {
+		database.getPlayerFromToken(body.clientToken, body.accessToken).then(function (player) {
+			var newToken = uuid(); // generate new token
+			database.setAccessToken(body.clientToken, newToken, player.username);
+
+			var reply = {
+				accessToken: newToken,
+				clientToken: body.clientToken,
+				selectedProfile: {
+					"id": player.profileID,
+					"name": player.username
+				}
+			};
+
+			if (body.requestUser) {
+				reply.user = {
+					"id": player.profileID
+				};
+			}
+
+			send(reply);
+		}).catch(function () {
+			error(5); // Invalid token
 		});
 	});
 };
