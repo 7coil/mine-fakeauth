@@ -1,0 +1,40 @@
+[
+	{
+		"error": "Method Not Allowed",
+		"errorMessage": "The method specified in the request is not allowed for the resource identified by the request URI",
+	},
+	{
+		"error": "Not Found",
+		"errorMessage": "The server has not found anything matching the request URI",
+	},
+	{
+		"error": "ForbiddenOperationException",
+		"errorMessage": "Invalid credentials. Account migrated, use e-mail as username.",
+		"cause": "UserMigratedException"
+	},
+	{
+		"error": "ForbiddenOperationException",
+		"errorMessage": "Invalid credentials. Invalid username or password."
+	},
+	{
+		"error": "ForbiddenOperationException",
+		"errorMessage": "Invalid credentials."
+	},
+	{
+		"error": "ForbiddenOperationException",
+		"errorMessage": "Invalid token."
+	},
+	{
+		"error": "IllegalArgumentException",
+		"errorMessage": "Access token already has a profile assigned."
+	},
+	{
+		"error": "IllegalArgumentException",
+		"errorMessage": "credentials is null"
+	},
+	{
+		"error": "Unsupported Media Type",
+		"errorMessage": "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method"
+	},
+
+]
