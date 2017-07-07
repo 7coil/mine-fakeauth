@@ -5,8 +5,8 @@ var fs = require("fs");
 
 var webrun = web({
 	https: {
-		key: fs.readFileSync('./keys/key.pem'),
-		cert: fs.readFileSync('./keys/cert.pem')
+		key: fs.readFileSync('./keys/key.key'),
+		cert: fs.readFileSync('./keys/cert.crt')
 	}
 });
 
