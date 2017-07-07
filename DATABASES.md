@@ -33,3 +33,13 @@ Search the token database by the clientToken given. If the clientToken is correc
 Returns: Promise
 
 Create or modify the token database with the data given. If it was successful, resolve, if not, reject.
+
+## deleteTokensFromUser(username)
+Returns: Promise
+
+Search the token database for all records with the username. Delete them. Do not reject if there are no records.
+
+## deleteTokenFromToken(accessToken)
+Returns: Promise
+
+Search the token database for the accessToken given. Delete the record. Reject if the record doesn't exist.

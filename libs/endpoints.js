@@ -75,4 +75,22 @@ module.exports = function (registerEndpoint, database) {
 			error(5, 403); // Invalid token
 		});
 	});
+
+	registerEndpoint("/signout", function (body, send, error) {
+		database.getPlayerFromLogin(body.username, body.password).then(function (player) {
+			database.deleteTokensFromUser(body.username).then(function () {
+				send(); // 204 No Content
+			});
+		}).catch(function () {
+			error(3); // Invalid username or password
+		});
+	});
+
+	registerEndpoint("/invalidate", function (body, send, error) {
+		database.deleteTokenFromToken(body.accessToken).then(function (player) {
+			send(); // 204 No Content
+		}).catch(function () {
+			error(5, 403); // Invalid token
+		});
+	});
 };
