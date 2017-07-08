@@ -16,6 +16,10 @@ module.exports = function (options) {
 
 	app.use(router);
 	
+	if (options.extraRouter) {
+		app.use(options.extraRouter);
+	}
+
 	app.use(function(req, res, next) {
 		if (req.method != "POST") { // differing from reference implementation as 404 returned before 405 normally
 			res.status(405);
