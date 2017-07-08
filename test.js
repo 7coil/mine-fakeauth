@@ -12,7 +12,8 @@ var webrun = web({
 	https: {
 		key: fs.readFileSync('./keys/key.key'),
 		cert: fs.readFileSync('./keys/cert.crt')
-	}
+	},
+	extraRouter: router
 });
 
 endpoints(webrun, data);
