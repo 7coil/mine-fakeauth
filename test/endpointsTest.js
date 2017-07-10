@@ -411,3 +411,115 @@ describe("signout", function () {
 		}, noop);
 	});
 });
+
+describe("invalidate", function () {
+	it("should fail on invalid tokens", function (done) {
+		endpoints["/invalidate"]({
+			"accessToken": "invalid",
+			"clientToken": "invalid"
+		}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should fail on no tokens", function (done) {
+		endpoints["/invalidate"]({}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should fail on null tokens", function (done) {
+		endpoints["/invalidate"]({
+			"accessToken": null,
+			"clientToken": null
+		}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should fail on bad tokens", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/invalidate"]({
+				"accessToken": "invalid",
+				"clientToken": auth.clientToken
+			}, noop, function (error) {
+				assert.equal(error, 5);
+				done();
+			});
+		}, noop);
+	});
+
+	it("should succeed on valid tokens", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/invalidate"]({
+				"accessToken": auth.accessToken,
+				"clientToken": auth.clientToken
+			}, done, noop);
+		}, noop);
+	});
+
+	it("should remove user after valid login", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/invalidate"]({
+				"accessToken": auth.accessToken,
+				"clientToken": auth.clientToken
+			}, function () {
+				endpoints["/validate"]({
+					"accessToken": auth.accessToken,
+					"clientToken": auth.clientToken
+				}, noop, function (error) {
+					assert.equal(error, 5);
+					done();
+				});
+			}, noop);
+		}, noop);
+	});
+
+	it("should fail after removal", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/invalidate"]({
+				"accessToken": auth.accessToken,
+				"clientToken": auth.clientToken
+			}, function () {
+				endpoints["/invalidate"]({
+					"accessToken": auth.accessToken,
+					"clientToken": auth.clientToken
+				}, noop, function (error) {
+					assert.equal(error, 5);
+					done();
+				});
+			}, noop);
+		}, noop);
+	});
+});
