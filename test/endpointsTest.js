@@ -23,7 +23,7 @@ describe("authenticate", function () {
 
 	it("should fail on no key login", function (done) {
 		endpoints["/authenticate"]({}, noop, function (error) {
-			assert.equal(error, 3);
+			assert.equal(error, 3); // todo change error to 7?
 			done();
 		});
 	});
@@ -33,7 +33,7 @@ describe("authenticate", function () {
 			"username": null,
 			"password": null
 		}, noop, function (error) {
-			assert.equal(error, 3);
+			assert.equal(error, 3); // todo change error to 7?
 			done();
 		});
 	});
