@@ -10,7 +10,7 @@ endpointsFile(function (url, callback) {
 	endpoints[url] = callback;
 }, require("../databases/dummy.js"));
 
-describe("authenticate", function () {
+describe("unit-authenticate", function () {
 	it("should fail on invalid login", function (done) {
 		endpoints["/authenticate"]({
 			"username": "invalid",
@@ -131,7 +131,7 @@ describe("authenticate", function () {
 	});
 });
 
-describe("refresh", function () {
+describe("unit-refresh", function () {
 	it("should fail on invalid tokens", function (done) {
 		endpoints["/refresh"]({
 			"accessToken": "invalid",
@@ -244,7 +244,7 @@ describe("refresh", function () {
 	});
 });
 
-describe("validate", function () {
+describe("unit-validate", function () {
 	it("should fail on invalid tokens", function (done) {
 		endpoints["/validate"]({
 			"accessToken": "invalid",
@@ -324,7 +324,7 @@ describe("validate", function () {
 	});
 });
 
-describe("signout", function () {
+describe("unit-signout", function () {
 	it("should fail on invalid login", function (done) {
 		endpoints["/signout"]({
 			"username": "invalid",
@@ -412,7 +412,7 @@ describe("signout", function () {
 	});
 });
 
-describe("invalidate", function () {
+describe("unit-invalidate", function () {
 	it("should fail on invalid tokens", function (done) {
 		endpoints["/invalidate"]({
 			"accessToken": "invalid",
