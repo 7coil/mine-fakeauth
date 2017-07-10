@@ -28,12 +28,18 @@ module.exports.getPlayerFromLogin = function (username, password) {
 	});
 };
 
-module.exports.getPlayerFromToken = function (accessToken) {
+module.exports.getPlayerFromToken = function (accessToken, clientToken) {
 	return new Promise(function (resolve, reject) {
 		var token = tokenDatabase.find(function (element) {
 			return accessToken == element.accessToken;
 		});
 		if (token) {
+			if (clientToken) {
+				if (token.clientToken != clientToken) {
+					reject();
+				}
+			}
+
 			var player = playerDatabase.find(function (element) {
 				return token.username == element.username;
 			});

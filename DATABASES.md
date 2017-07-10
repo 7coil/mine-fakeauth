@@ -19,10 +19,10 @@ Returns: Promise
 
 Search the player database by the username given. If the username exists and the password is correct (please use secure hashes!) resolve with the record details. If not, reject.
 
-## getPlayerFromToken(accessToken)
+## getPlayerFromToken(accessToken, clientToken)
 Returns: Promise
 
-Search the token database by the accessToken given. If the accessToken is correct, search the player database by the username in the record. Then resolve with the player details. If not, reject.
+Search the token database by the accessToken given. If the accessToken is correct, check (if it is provided) the clientToken with the token from the database. Then search the player database by the username in the record. Then resolve with the player details. If not, reject.
 
 ## getAccessToken(clientToken)
 Returns: String or null
