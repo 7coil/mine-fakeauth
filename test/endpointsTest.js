@@ -287,7 +287,7 @@ describe("validate", function () {
 				"version": 1
 			}
 		}, function (auth) {
-			endpoints["/refresh"]({
+			endpoints["/validate"]({
 				"accessToken": auth.accessToken,
 				"clientToken": "invalid"
 			}, noop, function (error) {
@@ -306,7 +306,7 @@ describe("validate", function () {
 				"version": 1
 			}
 		}, function (auth) {
-			endpoints["/refresh"]({
+			endpoints["/validate"]({
 				"accessToken": auth.accessToken,
 				"clientToken": null
 			}, done, noop);
