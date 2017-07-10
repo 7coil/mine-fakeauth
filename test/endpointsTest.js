@@ -33,25 +33,6 @@ describe("authenticate", function () {
 		}, noop);
 	});
 
-	it("should provide profiles if agent provided", function (done) {
-		endpoints["/authenticate"]({
-			"username": "comp500",
-			"password": "password",
-			"agent": {
-				"name": "Minecraft",
-				"version": 1
-			}
-		}, function (result) {
-			assert.isString(result.accessToken);
-			assert.isString(result.clientToken);
-			assert.containsAllKeys(result.selectedProfile, ["id", "name"]);
-			assert.containsAllKeys(result.availableProfiles[0], ["id", "name"]);
-			assert.deepEqual(result.selectedProfile, result.availableProfiles[0]);
-			assert.equal(result.selectedProfile.name, "comp500");
-			done();
-		}, noop);
-	});
-
 	it("should keep equal clientToken", function (done) {
 		endpoints["/authenticate"]({
 			"username": "comp500",
@@ -81,6 +62,25 @@ describe("authenticate", function () {
 				assert.equal(result.accessToken, result2.accessToken);
 				done();
 			}, noop);
+		}, noop);
+	});
+
+	it("should provide profiles if agent provided", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (result) {
+			assert.isString(result.accessToken);
+			assert.isString(result.clientToken);
+			assert.containsAllKeys(result.selectedProfile, ["id", "name"]);
+			assert.containsAllKeys(result.availableProfiles[0], ["id", "name"]);
+			assert.deepEqual(result.selectedProfile, result.availableProfiles[0]);
+			assert.equal(result.selectedProfile.name, "comp500");
+			done();
 		}, noop);
 	});
 });
