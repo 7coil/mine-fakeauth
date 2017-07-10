@@ -18,10 +18,10 @@ module.exports = function (options) {
 
 	app.use(function(req, res, next) {
 		if (req.method != "POST") { // differing from reference implementation as 404 returned before 405 normally
-			res.status(405);
+			res.status(errors[0].statusCode);
 			res.end(JSON.stringify(errors[0]));
 		} else {
-			res.status(404);
+			res.status(errors[1].statusCode);
 			res.end(JSON.stringify(errors[1]));
 		}
 	});
@@ -46,7 +46,7 @@ module.exports = function (options) {
 				}
 			}, function errorHandler(error, status) {
 				if (status) {
-					res.status(status); // TODO get status codes from file
+					res.status(errors[error].statusCode); // TODO get status codes from file
 				}
 				res.end(JSON.stringify(errors[error]));
 			});

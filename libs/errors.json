@@ -1,39 +1,48 @@
 [
 	{
 		"error": "Method Not Allowed",
-		"errorMessage": "The method specified in the request is not allowed for the resource identified by the request URI"
+		"errorMessage": "The method specified in the request is not allowed for the resource identified by the request URI",
+		"errorCode": 405
 	},
 	{
 		"error": "Not Found",
-		"errorMessage": "The server has not found anything matching the request URI"
+		"errorMessage": "The server has not found anything matching the request URI",
+		"errorCode": 404
 	},
 	{
 		"error": "ForbiddenOperationException",
 		"errorMessage": "Invalid credentials. Account migrated, use e-mail as username.",
-		"cause": "UserMigratedException"
+		"cause": "UserMigratedException",
+		"errorCode": 403
 	},
 	{
 		"error": "ForbiddenOperationException",
-		"errorMessage": "Invalid credentials. Invalid username or password."
+		"errorMessage": "Invalid credentials. Invalid username or password.",
+		"errorCode": 403
 	},
 	{
 		"error": "ForbiddenOperationException",
-		"errorMessage": "Invalid credentials."
+		"errorMessage": "Invalid credentials.",
+		"errorCode": 403
 	},
 	{
 		"error": "ForbiddenOperationException",
-		"errorMessage": "Invalid token."
+		"errorMessage": "Invalid token.",
+		"errorCode": 403
 	},
 	{
 		"error": "IllegalArgumentException",
-		"errorMessage": "Access token already has a profile assigned."
+		"errorMessage": "Access token already has a profile assigned.",
+		"errorCode": 400
 	},
 	{
 		"error": "IllegalArgumentException",
-		"errorMessage": "credentials is null"
+		"errorMessage": "credentials is null",
+		"errorCode": 400
 	},
 	{
 		"error": "Unsupported Media Type",
-		"errorMessage": "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method"
+		"errorMessage": "The server is refusing to service the request because the entity of the request is in a format not supported by the requested resource for the requested method",
+		"errorCode": 415
 	}
 ]
