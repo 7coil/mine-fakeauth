@@ -90,8 +90,8 @@ module.exports = function (registerEndpoint, database) {
 		});
 	});
 
-	registerEndpoint("/invalidate", function (body, send, error) {
-		database.deleteTokenFromToken(body.accessToken).then(function (player) {
+	registerEndpoint("/invalidate", function (body, send, error) { // todo check client token?
+		database.deleteTokenFromToken(body.accessToken).then(function () {
 			send(); // 204 No Content
 		}).catch(function () {
 			error(5); // Invalid token

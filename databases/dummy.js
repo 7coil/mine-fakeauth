@@ -102,7 +102,9 @@ module.exports.deleteTokenFromToken = function (accessToken) {
 		});
 		if (token > -1) {
 			tokenDatabase.splice(token, 1);
+			resolve();
+		} else {
+			reject();
 		}
-		resolve();
 	});
 };
