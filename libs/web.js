@@ -44,7 +44,7 @@ module.exports = function (options) {
 					res.status(204);
 					res.end(); // no content
 				}
-			}, function errorHandler(error, status) {
+			}, function errorHandler(error) {
 				if (status) {
 					res.status(errors[error].statusCode); // TODO get status codes from file
 				}

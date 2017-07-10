@@ -38,7 +38,7 @@ module.exports = function (registerEndpoint, database) {
 
 			send(reply);
 		}).catch(function () {
-			error(3, 403); // Invalid username or password
+			error(3); // Invalid username or password
 		});
 	});
 
@@ -64,7 +64,7 @@ module.exports = function (registerEndpoint, database) {
 
 			send(reply);
 		}).catch(function () {
-			error(5, 403); // Invalid token
+			error(5); // Invalid token
 		});
 	});
 
@@ -72,7 +72,7 @@ module.exports = function (registerEndpoint, database) {
 		database.getPlayerFromToken(body.accessToken).then(function (player) {
 			send(); // 204 No Content
 		}).catch(function () {
-			error(5, 403); // Invalid token
+			error(5); // Invalid token
 		});
 	});
 
@@ -82,7 +82,7 @@ module.exports = function (registerEndpoint, database) {
 				send(); // 204 No Content
 			});
 		}).catch(function () {
-			error(3, 403); // Invalid username or password
+			error(3); // Invalid username or password
 		});
 	});
 
@@ -90,7 +90,7 @@ module.exports = function (registerEndpoint, database) {
 		database.deleteTokenFromToken(body.accessToken).then(function (player) {
 			send(); // 204 No Content
 		}).catch(function () {
-			error(5, 403); // Invalid token
+			error(5); // Invalid token
 		});
 	});
 };
