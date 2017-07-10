@@ -146,12 +146,68 @@ describe("ygg-refresh", function () {
 
 describe("ygg-validate", function () {
 	it("works", function (done) {
-		done();
+		ygg.auth({
+			user: "comp500",
+			pass: "password"
+		}, function (err1, auth) {
+			if (err1) {
+				done(err1);
+			} else {
+				ygg.validate(auth.accessToken, function (err2) {
+					if (err2) {
+						done(err2);
+					} else {
+						done();
+					}
+				});
+			}
+		});
+	});
+
+	it("fails on error", function (done) {
+		ygg.validate("invalid", function (err2) {
+			if (err2) {
+				done();
+			} else {
+				done("No error!");
+			}
+		});
 	});
 });
 
 describe("ygg-signout", function () {
 	it("works", function (done) {
-		done();
+		ygg.auth({
+			user: "comp500",
+			pass: "password"
+		}, function (err1, auth) {
+			if (err1) {
+				done(err1);
+			} else {
+				ygg.signout("comp500", "password", function (err2) {
+					if (err2) {
+						done(err2);
+					} else {
+						ygg.validate(auth.accessToken, function (err3) {
+							if (err3) {
+								done();
+							} else {
+								done("No error!");
+							}
+						});
+					}
+				});
+			}
+		});
+	});
+
+	it("fails on error", function (done) {
+		ygg.signout("comp500", "invalid", function (err2) {
+			if (err2) {
+				done();
+			} else {
+				done("No error!");
+			}
+		});
 	});
 });
