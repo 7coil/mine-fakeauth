@@ -12,12 +12,58 @@ var webrun = web();
 endpoints(webrun, data);
 
 var ygg = require("yggdrasil")({
-	host: "http://localhost/"
+	host: "http://localhost"
 });
 
 describe("ygg-auth", function () {
 	it("works", function (done) {
-		done();
+		ygg.auth({
+			user: "comp500",
+			pass: "password"
+		}, function (err, data) {
+			if (err) {
+				done(err);
+			}
+			if (data) {
+				done();
+			}
+		});
+	});
+
+	it("fails on bad password", function (done) {
+		ygg.auth({
+			user: "comp500",
+			pass: "incorrect"
+		}, function (err, data) {
+			if (err) {
+				done();
+			} else {
+				done("No error!")
+			}
+		});
+	});
+
+	it("fails on bad username", function (done) {
+		ygg.auth({
+			user: "invalid",
+			pass: "invalid"
+		}, function (err, data) {
+			if (err) {
+				done();
+			} else {
+				done("No error!")
+			}
+		});
+	});
+
+	it("fails on no user/pass", function (done) {
+		ygg.auth({}, function (err, data) {
+			if (err) {
+				done();
+			} else {
+				done("No error!")
+			}
+		});
 	});
 });
 
