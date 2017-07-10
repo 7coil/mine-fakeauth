@@ -14,7 +14,7 @@ var webrun = web({
 endpoints(webrun, data);
 
 var ygg = require("yggdrasil")({
-	host: "http://localhost"
+	host: "http://localhost:8080"
 });
 
 describe("ygg-auth", function () {
