@@ -21,6 +21,23 @@ describe("authenticate", function () {
 		});
 	});
 
+	it("should fail on no key login", function (done) {
+		endpoints["/authenticate"]({}, noop, function (error) {
+			assert.equal(error, 3);
+			done();
+		});
+	});
+
+	it("should fail on null login", function (done) {
+		endpoints["/authenticate"]({
+			"username": null,
+			"password": null
+		}, noop, function (error) {
+			assert.equal(error, 3);
+			done();
+		});
+	});
+
 	it("should succeed on valid login", function (done) {
 		endpoints["/authenticate"]({
 			"username": "comp500",
@@ -76,10 +93,29 @@ describe("authenticate", function () {
 		}, function (result) {
 			assert.isString(result.accessToken);
 			assert.isString(result.clientToken);
-			assert.containsAllKeys(result.selectedProfile, ["id", "name"]);
-			assert.containsAllKeys(result.availableProfiles[0], ["id", "name"]);
+			assert.isString(result.selectedProfile.id);
+			assert.isString(result.selectedProfile.name);
 			assert.deepEqual(result.selectedProfile, result.availableProfiles[0]);
 			assert.equal(result.selectedProfile.name, "comp500");
+			done();
+		}, noop);
+	});
+
+	it("should provide user if requested", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"requestUser": true,
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (result) {
+			assert.isString(result.accessToken);
+			assert.isString(result.clientToken);
+			assert.isString(result.selectedProfile.id);
+			assert.equal(result.user.id, result.selectedProfile.id);
+			assert.equal(result.user.id, result.availableProfiles[0].id);
 			done();
 		}, noop);
 	});
