@@ -45,7 +45,7 @@ module.exports = function (options) {
 					res.end(); // no content
 				}
 			}, function errorHandler(error) {
-				res.status(errors[error].statusCode);
+				res.status(errors[error].errorCode);
 				res.end(JSON.stringify(errors[error]));
 			});
 		});
