@@ -27,9 +27,9 @@ module.exports = function (options) {
 	});
 	
 	if (options && options.https) {
-		https.createServer(options.https, app).listen(443);
+		https.createServer(options.https, app).listen(options.port ? options.port : 443);
 	} else {
-		http.createServer(app).listen(80); // for testing
+		http.createServer(app).listen(options.port ? options.port : 80); // for testing
 	}
 	
 	return function (endpoint, callback) {
