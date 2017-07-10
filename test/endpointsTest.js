@@ -38,6 +38,16 @@ describe("authenticate", function () {
 		});
 	});
 
+	it("should fail on login with bad password", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "invalid"
+		}, noop, function (error) {
+			assert.equal(error, 3); // todo change error to 7?
+			done();
+		});
+	});
+
 	it("should succeed on valid login", function (done) {
 		endpoints["/authenticate"]({
 			"username": "comp500",
