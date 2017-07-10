@@ -4,7 +4,7 @@
   "description": "A https server to fake Minecraft's authentication server.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [
     "minecraft"
@@ -16,5 +16,10 @@
     "express": "^4.15.3",
     "morgan": "^1.8.2",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "yggdrasil": "^0.2.0"
   }
 }
