@@ -323,3 +323,91 @@ describe("validate", function () {
 		}, noop);
 	});
 });
+
+describe("signout", function () {
+	it("should fail on invalid login", function (done) {
+		endpoints["/signout"]({
+			"username": "invalid",
+			"password": "invalid"
+		}, noop, function (error) {
+			assert.equal(error, 3);
+			done();
+		});
+	});
+
+	it("should fail on no login", function (done) {
+		endpoints["/signout"]({}, noop, function (error) {
+			assert.equal(error, 3); // todo change error to 7?
+			done();
+		});
+	});
+
+	it("should fail on null login", function (done) {
+		endpoints["/signout"]({
+			"username": null,
+			"password": null
+		}, noop, function (error) {
+			assert.equal(error, 3); // todo change error to 7?
+			done();
+		});
+	});
+
+	it("should fail on login with bad password", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/signout"]({
+				"username": "comp500",
+				"password": "invalid"
+			}, noop, function (error) {
+				assert.equal(error, 3);
+				done();
+			});
+		}, noop);
+	});
+
+	it("should succeed on valid login", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/signout"]({
+				"username": "comp500",
+				"password": "password"
+			}, done, noop);
+		}, noop);
+	});
+
+	it("should remove user after valid login", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/signout"]({
+				"username": "comp500",
+				"password": "password"
+			}, function () {
+				endpoints["/validate"]({
+					"accessToken": auth.accessToken,
+					"clientToken": auth.clientToken
+				}, noop, function (error) {
+					assert.equal(error, 5);
+					done();
+				});
+			}, noop);
+		}, noop);
+	});
+});
