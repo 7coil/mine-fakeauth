@@ -208,4 +208,28 @@ describe("refresh", function () {
 			}, noop);
 		}, noop);
 	});
+
+	it("should invalidate old token and new token is valid", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password"
+		}, function (auth) {
+			endpoints["/refresh"]({
+				"accessToken": auth.accessToken,
+				"clientToken": auth.clientToken
+			}, function (result) {
+				assert.notEqual(result.accessToken, auth.accessToken);
+				endpoints["/validate"]({ // test old is invalid
+					"accessToken": auth.accessToken,
+					"clientToken": auth.clientToken
+				}, noop, function (error) {
+					assert.equal(error, 5);
+					endpoints["/validate"]({ // ensure new is valid
+						"accessToken": result.accessToken,
+						"clientToken": auth.clientToken
+					}, done, noop);
+				});
+			}, noop);
+		}, noop);
+	});
 });
