@@ -233,3 +233,83 @@ describe("refresh", function () {
 		}, noop);
 	});
 });
+
+describe("validate", function () {
+	it("should fail on invalid tokens", function (done) {
+		endpoints["/validate"]({
+			"accessToken": "invalid",
+			"clientToken": "invalid"
+		}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should fail on no tokens", function (done) {
+		endpoints["/validate"]({}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should fail on null tokens", function (done) {
+		endpoints["/validate"]({
+			"accessToken": null,
+			"clientToken": null
+		}, noop, function (error) {
+			assert.equal(error, 5);
+			done();
+		});
+	});
+
+	it("should succeed on valid tokens", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/validate"]({
+				"accessToken": auth.accessToken,
+				"clientToken": auth.clientToken
+			}, done, noop);
+		}, noop);
+	});
+
+	it("should fail on incorrect client token", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/refresh"]({
+				"accessToken": auth.accessToken,
+				"clientToken": "invalid"
+			}, noop, function (error) {
+				assert.equal(error, 5);
+				done();
+			});
+		}, noop);
+	});
+
+	it("should succeed on null client token", function (done) {
+		endpoints["/authenticate"]({
+			"username": "comp500",
+			"password": "password",
+			"agent": {
+				"name": "Minecraft",
+				"version": 1
+			}
+		}, function (auth) {
+			endpoints["/refresh"]({
+				"accessToken": auth.accessToken,
+				"clientToken": null
+			}, done, noop);
+		}, noop);
+	});
+});
