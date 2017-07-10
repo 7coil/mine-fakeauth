@@ -45,9 +45,7 @@ module.exports = function (options) {
 					res.end(); // no content
 				}
 			}, function errorHandler(error) {
-				if (status) {
-					res.status(errors[error].statusCode); // TODO get status codes from file
-				}
+				res.status(errors[error].statusCode);
 				res.end(JSON.stringify(errors[error]));
 			});
 		});
