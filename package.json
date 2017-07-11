@@ -28,6 +28,6 @@
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
     "yggdrasil": "zekesonxx/node-yggdrasil#5277f15",
-	"morgan": "^1.8.2",
+	"morgan": "^1.8.2"
   }
 }
