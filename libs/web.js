@@ -1,6 +1,4 @@
 const express = require('express');
-
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const errors = require('./errors.json');
@@ -16,8 +14,6 @@ module.exports = function (options) {
 	var endpointsArray = endpoints(database);
 	
 	const router = express.Router();
-
-	router.use(morgan("combined"));
 	router.use(bodyParser.json());
 
 	Object.keys(endpointsArray).forEach(function (key) {

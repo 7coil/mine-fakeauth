@@ -5,9 +5,10 @@ const noop = function (reason) {
 
 var web = require("../libs/web.js");
 var app = require("express")();
+var morgan = require("morgan");
 
+app.use(morgan(":method :url :status :response-time ms"));
 app.use(web());
-
 app.listen(8080);
 
 var ygg = require("yggdrasil")({

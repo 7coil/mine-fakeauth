@@ -22,12 +22,12 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "morgan": "^1.8.2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
-    "yggdrasil": "zekesonxx/node-yggdrasil#5277f15"
+    "yggdrasil": "zekesonxx/node-yggdrasil#5277f15",
+	"morgan": "^1.8.2",
   }
 }
