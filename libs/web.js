@@ -1,40 +1,28 @@
 const express = require('express');
-const https = require('https');
-const http = require('http');
 
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const errors = require('./errors.json');
+const endpoints = require("./endpoints.js");
 
 module.exports = function (options) {
-	const app = express();
-	const router = express.Router();
-	
-	app.use(morgan("combined"));
-	app.use(bodyParser.json());
-
-	app.use(router);
-
-	app.use(function(req, res, next) {
-		if (req.method != "POST") { // differing from reference implementation as 404 returned before 405 normally
-			res.status(errors[0].errorCode);
-			res.end(JSON.stringify(errors[0]));
-		} else {
-			res.status(errors[1].errorCode);
-			res.end(JSON.stringify(errors[1]));
-		}
-	});
-	
-	if (options && options.https) {
-		https.createServer(options.https, app).listen(options.port ? options.port : 443);
+	var database;
+	if (options && options.database) {
+		database = options.database;
 	} else {
-		http.createServer(app).listen(options.port ? options.port : 80); // for testing
+		database = require("../databases/dummy.js")
 	}
+	var endpointsArray = endpoints(database);
 	
-	return function (endpoint, callback) {
-		router.post(endpoint, function (req, res) {
-			callback(req.body, function endpointHandler(response, status) {
+	const router = express.Router();
+
+	router.use(morgan("combined"));
+	router.use(bodyParser.json());
+
+	Object.keys(endpointsArray).forEach(function (key) {
+		router.post(key, function (req, res) {
+			endpointsArray[key](req.body, function endpointHandler(response, status) {
 				if (status) {
 					res.status(status);
 				}
@@ -49,5 +37,17 @@ module.exports = function (options) {
 				res.end(JSON.stringify(errors[error]));
 			});
 		});
-	};
+	});
+
+	router.use(function(req, res, next) {
+		if (req.method != "POST") { // differing from reference implementation as 404 returned before 405 normally
+			res.status(errors[0].errorCode);
+			res.end(JSON.stringify(errors[0]));
+		} else {
+			res.status(errors[1].errorCode);
+			res.end(JSON.stringify(errors[1]));
+		}
+	});
+
+	return router;
 };

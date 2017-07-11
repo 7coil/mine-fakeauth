@@ -3,15 +3,12 @@ const noop = function (reason) {
 	throw new Error(reason); // throw error when wrong callback is called
 };
 
-var data = require("../databases/dummy.js");
 var web = require("../libs/web.js");
-var endpoints = require("../libs/endpoints.js");
-var fs = require("fs");
+var app = require("express")();
 
-var webrun = web({
-	port: 8080
-});
-endpoints(webrun, data);
+app.use(web());
+
+app.listen(8080);
 
 var ygg = require("yggdrasil")({
 	host: "http://localhost:8080"

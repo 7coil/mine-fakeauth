@@ -6,9 +6,7 @@ const noop = function (reason) {
 var endpoints = {};
 
 // import all endpoint functions to endpoints
-endpointsFile(function (url, callback) {
-	endpoints[url] = callback;
-}, require("../databases/dummy.js"));
+endpoints = endpointsFile(require("../databases/dummy.js"));
 
 describe("unit-authenticate", function () {
 	it("should fail on invalid login", function (done) {
